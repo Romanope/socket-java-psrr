@@ -7,7 +7,7 @@ import java.net.InetAddress;
 import java.net.SocketException;
 
 import com.psrr.socket.contrato.ISocket;
-import com.psrr.socket.util.Constantes;
+import com.socket.gui.Index;
 
 public class ServerUDPImpl implements ISocket {
 
@@ -26,6 +26,7 @@ public class ServerUDPImpl implements ISocket {
 	public ServerUDPImpl(int port) {
 		try {
 			server = new DatagramSocket(port);
+			Index.addLogServerUDP("Servidor UDP executando na porta " + port);
 			this.port = port;
 		} catch (SocketException e) {
 			e.printStackTrace();
@@ -35,10 +36,13 @@ public class ServerUDPImpl implements ISocket {
 	@Override
 	public void send(byte[] msgs) {
 		
+		Index.addLogServerUDP("Mensagem para transmitir para o cliente recebida...");
+		Index.addLogServerUDP("Preparando mensagem para envio...");
 		DatagramPacket retMSG = new DatagramPacket(msgs, msgs.length, source, currentPort);
 		try {
 			server.send(retMSG);
-			System.out.println("UDP SERVER: Finish");
+			Index.addLogServerUDP("Mensagem enviada para o cliente...");
+			Index.addLogServerUDP("Finalizando troca de mensagens...");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -49,11 +53,15 @@ public class ServerUDPImpl implements ISocket {
 		
 		req = new byte[1024];
 		request = new DatagramPacket(req, req.length);
-		System.out.println("UDP SERVER waiting for connection in the port: " + port);
+		Index.addLogServerUDP("aguardando conexão...");
 		try {
 			server.receive(request);
+			Index.addLogServerUDP("Conexão obtida... Mensagem recebida...");
 			source = request.getAddress();
+			Index.addLogServerUDP("source " + source.toString());
 			currentPort = request.getPort();
+			Index.addLogServerUDP("Source port" + currentPort);
+			Index.addLogServerUDP("Passando mensagem recebida para o DHCP...");
 			return request.getData();
 		} catch (IOException e) {
 			e.printStackTrace();

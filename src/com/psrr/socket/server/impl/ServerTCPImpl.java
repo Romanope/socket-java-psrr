@@ -7,6 +7,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import com.psrr.socket.contrato.ISocket;
+import com.socket.gui.Index;
 
 public class ServerTCPImpl implements ISocket {
 
@@ -21,7 +22,7 @@ public class ServerTCPImpl implements ISocket {
 	public ServerTCPImpl(int port) {
 		try {
 			this.serverTCP =  new ServerSocket(port);
-			System.out.println("Servidor rodando na porta " + port);
+			Index.addLogServerTCP("Servidor TCP rodando na porta " + port);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -30,14 +31,17 @@ public class ServerTCPImpl implements ISocket {
 	@Override
 	public void send(byte[] msgs) {
 		try {
+			Index.addLogServerTCP("Mensagem para envio recebida...");
 			out = new ObjectOutputStream(conn.getOutputStream());
 			
 			out.writeObject(msgs);
 			out.flush();
+			Index.addLogServerTCP("Mensagem enviada o cliente...");
 			
 			conn.close();
 			out.close();
 			in.close();
+			Index.addLogServerTCP("Conexões encerradas...");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -47,11 +51,12 @@ public class ServerTCPImpl implements ISocket {
 	public byte[] receive() {
 		
 		try {
-			System.out.println("Servidor aguardando conexão...");
+			Index.addLogServerTCP("Servidor aguardando conexão...");
 			conn = serverTCP.accept();
-			System.out.println("Conexão com o cliente realizada...");
+			Index.addLogServerTCP("Conexão com o cliente realizada...");
 			in = new ObjectInputStream(conn.getInputStream());
 			byte[] msg = (byte[]) in.readObject();
+			Index.addLogServerTCP("Repassando dados recebidos para o DHCP...");
 			return msg;
 		} catch (IOException e) {
 			e.printStackTrace();

@@ -9,6 +9,7 @@ import java.net.UnknownHostException;
 
 import com.psrr.socket.contrato.ISocket;
 import com.psrr.socket.util.Constantes;
+import com.socket.gui.Index;
 
 public class ClientUDPImpl implements ISocket {
 
@@ -20,6 +21,7 @@ public class ClientUDPImpl implements ISocket {
 	
 	public ClientUDPImpl(int port) {
 		try {
+			Index.addLogClientUDP("Criando socket para envio de mensagem...");
 			client = new DatagramSocket();
 			serverIp = InetAddress.getByName(Constantes.IP_SERVER);
 			this.port = port;
@@ -32,9 +34,14 @@ public class ClientUDPImpl implements ISocket {
 	
 	@Override
 	public void send(byte[] msgs) {
+		Index.addLogClientUDP("Mensagem para envio ao servidor recebida...");
+		Index.addLogClientUDP("Configurando datagrama para transmissão...");
 		DatagramPacket datagrama = new DatagramPacket(msgs, msgs.length, serverIp, port);
+		
 		try {
+			Index.addLogClientUDP("Enviando mensagem...");
 			client.send(datagrama);
+			Index.addLogClientUDP("Mensagem enviada com sucesso...");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -44,10 +51,12 @@ public class ClientUDPImpl implements ISocket {
 	public byte[] receive() {
 		
 		byte[] response = new byte[1024];
-		
 		DatagramPacket pResponse = new DatagramPacket(response, response.length);
+		Index.addLogClientUDP("Aguardando resposta do servidor UDP...");
 		try {
 			client.receive(pResponse);
+			Index.addLogClientUDP("Resposta recebida com sucesso...");
+			Index.addLogClientUDP("Passando resposta para o DHCP...");
 			return pResponse.getData();
 		} catch (IOException e) {
 			e.printStackTrace();

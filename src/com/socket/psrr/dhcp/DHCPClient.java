@@ -2,8 +2,6 @@ package com.socket.psrr.dhcp;
 
 import java.io.IOException;
 
-import javax.swing.JTextArea;
-
 import com.psrr.socket.contrato.ISocket;
 import com.psrr.socket.dhcp.messages.ACKMessage;
 import com.psrr.socket.dhcp.messages.DiscoveryMessage;
@@ -49,19 +47,18 @@ public class DHCPClient {
 		DiscoveryMessage discovery = new DiscoveryMessage(Constantes.HOST, ipClass, Constantes.IP_SERVER);
 		byte[] dArray = Util.serialize(discovery);
 		clientSocket.send(dArray);
-		System.out.println("\nDHCP CLIENT: Mensagem Discovery Enviada para o servidor");
-		System.out.println(discovery.toString());
-		Index.setText("\nDHCP CLIENT: Mensagem Discovery Enviada para o servidor");
-		Index.setText(discovery.toString());
+		Index.addLogDHCPClient("Mensagem DISCOVERY Enviada para o servidor");
+		Index.addLogDHCPClient(discovery.toString());
 	}
 	
 	private OfferMessage responseDiscovery() throws ClassNotFoundException, IOException {
+		
 		byte[] response = clientSocket.receive();
 		OfferMessage offer = (OfferMessage) Util.deserialize(response);
-		System.out.println("\nDHCP CLIENT: Resposta OFFER recebida");
-		System.out.println(offer.toString());
-		Index.setText("\nDHCP CLIENT: Resposta OFFER recebida");
-		Index.setText(offer.toString());
+		
+		Index.addLogDHCPClient("Resposta OFFER recebida");
+		Index.addLogDHCPClient(offer.toString());
+		
 		return offer;
 	}
 	
@@ -71,19 +68,18 @@ public class DHCPClient {
 		request.setIdentificador(offer.getIdentificador());
 		byte[] rArray = Util.serialize(request);
 		clientSocket.send(rArray);
-		System.out.println("\nDHCP CLIENT: Mensagem REQUEST Enviada para o servidor");
-		System.out.println(request.toString());
-		Index.setText("\nDHCP CLIENT: Mensagem REQUEST Enviada para o servidor");
-		Index.setText(request.toString());
+		
+		Index.addLogDHCPClient("Mensagem REQUEST Enviada para o servidor");
+		Index.addLogDHCPClient(request.toString());
 	}
 	
 	private void responseRequest() throws ClassNotFoundException, IOException {
+		
 		byte[] response = clientSocket.receive();
 		ACKMessage ack = (ACKMessage) Util.deserialize(response);
-		System.out.println("\nDHCP CLIENT: MENSAGEM ACK RECEBIDA");
-		System.out.println(ack.toString());
-		Index.setText("\nDHCP CLIENT: MENSAGEM ACK RECEBIDA");
-		Index.setText(ack.toString());
-		System.out.println("CLIENT CONFIGURADO COM SUCESSO!");
+
+		Index.addLogDHCPClient("MENSAGEM ACK RECEBIDA");
+		Index.addLogDHCPClient(ack.toString());
+		Index.addLogDHCPClient("CLIENT CONFIGURADO COM SUCESSO!");
 	}
 }

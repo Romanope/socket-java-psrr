@@ -6,6 +6,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 import com.psrr.socket.contrato.ISocket;
+import com.socket.gui.Index;
 
 public class ClientTCPImpl implements ISocket {
 
@@ -29,12 +30,14 @@ public class ClientTCPImpl implements ISocket {
 		
 		try {
 			this.client = new Socket(host, port);
-			
-			System.out.println("Client enviando mensagem para o servidor");
+			Index.addLogClientTCP("Enviando mensagem para o servidor...");
+
 			out = new ObjectOutputStream(client.getOutputStream());
+			Index.addLogClientTCP("Preparando dados para transmissão...");
 			
 			out.writeObject(msgs);
 			out.flush();
+			Index.addLogClientTCP("Mensagem enviada para o servidor...");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -42,16 +45,18 @@ public class ClientTCPImpl implements ISocket {
 
 	@Override
 	public byte[] receive() {
+		
 		try {
-			
-			System.out.println("Cliente aguardando resposta do servidor");
+			Index.addLogClientTCP("Aguardando resposta do servidor");
 			in = new ObjectInputStream(client.getInputStream());
 			byte[]response = (byte[]) in.readObject();
-			System.out.println("Resposta recebida do servidor");
+			Index.addLogClientTCP("Resposta recebida do servidor...");
+			
 			client.close();
 			out.close();
 			in.close();
-			
+			Index.addLogClientTCP("Fechando conexão...");
+			Index.addLogClientTCP("Passando para o DHCP a mensagem recebida...");
 			return response;
 		} catch (IOException e) {
 			e.printStackTrace();

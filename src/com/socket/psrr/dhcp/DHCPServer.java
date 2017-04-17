@@ -79,17 +79,17 @@ public class DHCPServer {
 	
 	private byte[] offer(DiscoveryMessage discovery) throws IOException {
 		
-		System.out.println("\nDHCP SERVER: Message Discovery Received!");
-		System.out.println(discovery.toString());
-		Index.setText("\nDHCP SERVER: Message Discovery Received!");
-		Index.setText(discovery.toString());
+		Index.addLogDHCPServer("Message Discovery Received!");
+		Index.addLogDHCPServer(discovery.toString());
+		
+		
 		OfferMessage offer = new OfferMessage(Constantes.IP_SERVER, getIp(discovery.getIpClass()), Long.valueOf("9999999999"), discovery.getIpClass());
 		identificador++;
 		offer.setIdentificador(identificador);
-		System.out.println("\nDHCP SERVER: Enviando mensagem OFFER");
-		System.out.println(offer.toString());
-		Index.setText("\nDHCP SERVER: Enviando mensagem OFFER");
-		Index.setText(offer.toString());
+		
+		Index.addLogDHCPServer("Enviando mensagem OFFER");
+		Index.addLogDHCPServer(offer.toString());
+		
 		return Util.serialize(offer);
 	}
 	
@@ -153,20 +153,17 @@ public class DHCPServer {
 	
 	private byte[] getAckMessage(RequestMessage request) throws IOException {
 		
-		System.out.println("\nDHCP SERVER: Mensagem Recebida");
-		System.out.println(request.toString());
-		Index.setText("\nDHCP SERVER: Mensagem Recebida");
-		Index.setText(request.toString());
+		Index.addLogDHCPServer("Mensagem Recebida");
+		Index.addLogDHCPServer(request.toString());
+		
 		ACKMessage ack = new ACKMessage(request.getIpOffer(), request.getIpServer(), request.getIpClass());
 		ack.setIdentificador(request.getIdentificador());
 		byte[] mByte = Util.serialize(ack);
 		
 		addCount(ack.getIpClass(), 1);
 		
-		System.out.println("\nDHCP SERVER: Enviando Mensagem: ");
-		System.out.println(ack.toString());
-		Index.setText("\nDHCP SERVER: Enviando Mensagem: ");
-		Index.setText(ack.toString());
+		Index.addLogDHCPServer("Enviando Mensagem: ");
+		Index.addLogDHCPServer(ack.toString());
 		
 		return mByte;
 	}
