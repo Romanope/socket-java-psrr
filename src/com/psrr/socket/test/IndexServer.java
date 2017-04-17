@@ -6,6 +6,6 @@ public class IndexServer {
 
 	public static void main(String[] args) {
 		
-		DHCPServer server = new DHCPServer(5000, true);
+		DHCPServer.start(5000, true);
 	}
 }

@@ -67,12 +67,12 @@ public class OfferMessage extends GenericMessage implements Serializable {
 	@Override
 	public String toString() {
 		
-		StringBuilder retorno = new StringBuilder("OFFER MESSAGE");
+		StringBuilder retorno = new StringBuilder("\nOFFER MESSAGE");
 		retorno.append("\nIDENTIFICADOR: ".concat(String.valueOf(getIdentificador())))
 		.append("\nIP SERVER: ").append(getIpServer())
 		.append("\nIP OFFER: ").append(getIpOffer())
 		.append("\nIP CLASS: ").append(getIpClass())
-		.append("\nTIME TO LIVE: ").append(getTimeToLive());
+		.append("\nTIME TO LIVE: ").append(getTimeToLive()).append("\n");
 		
 		return retorno.toString();
 	}

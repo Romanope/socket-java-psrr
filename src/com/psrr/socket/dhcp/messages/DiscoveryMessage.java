@@ -47,11 +47,11 @@ public class DiscoveryMessage extends GenericMessage implements Serializable {
 	
 	@Override
 	public String toString() {
-		StringBuilder retorno = new StringBuilder("DISCOVERY MESSAGE: ");
+		StringBuilder retorno = new StringBuilder("\nDISCOVERY MESSAGE: ");
 		
 		retorno.append("\nIP HOST: ").append(getIpSource())
 		.append("\nIP CLASS: ").append(getIpClass())
-		.append("\nIP DESTINY: ").append(getIpDestiny());
+		.append("\nIP DESTINY: ").append(getIpDestiny()).append("\n");
 		
 		return retorno.toString();
 	}

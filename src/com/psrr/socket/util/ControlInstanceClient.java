@@ -28,7 +28,7 @@ public final class ControlInstanceClient {
 		if (tcp) {
 			return new ClientTCPImpl(host, port);
 		} else {
-			return new ClientUDPImpl();
+			return new ClientUDPImpl(port);
 		}
 	}
 }

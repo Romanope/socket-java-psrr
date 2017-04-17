@@ -67,7 +67,7 @@ public class Index extends JFrame {
 				new Thread(new Runnable() {
 					@Override
 					public void run() {
-						DHCPServer server = new DHCPServer(5000, isTcp());
+						subirServidores(tpSockets.getSelectedItem().toString().trim().equals("TCP"));
 					}
 				}).start();
 				
@@ -138,13 +138,36 @@ public class Index extends JFrame {
 	
 	private void start() {
 		int qtd = Integer.valueOf(textQuantidade.getText().trim());
+		int port = isTcp() ? 5000 : 12345;
 		for (int i = 0; i < qtd; i++) {
-			DHCPClient client = new DHCPClient("127.0.0.1", 5000, isTcp(),  getClasse());
+			DHCPClient client = new DHCPClient("127.0.0.1", port, isTcp(),  getClasse());
 		}
 		System.out.println("Número de requisições: ".concat(Integer.toString(qtd)));
 	}
 	
 	public static synchronized void setText(String text) {
 		textLog.setText(textLog.getText().concat(text));
+	}
+	
+	private void subirServidores(boolean tcp) {
+		if (tcp) {
+			subirServidorTCP();
+		} else {
+			subirServidorUDP();
+		}
+	}
+	
+	private void subirServidorTCP() {
+		if (!DHCPServer.isRodando()) {
+			DHCPServer.setRodando(true);
+			DHCPServer.start(5000, isTcp());
+		}
+	}
+
+	private void subirServidorUDP() {
+		if (!DHCPServer.isServerUdpRodando()) {
+			DHCPServer.setServerUdpRodando(true);
+			DHCPServer.start(12345, isTcp());
+		}
 	}
 }

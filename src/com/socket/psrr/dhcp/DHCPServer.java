@@ -25,7 +25,11 @@ public class DHCPServer {
 	
 	private long identificador;
 	
-	public DHCPServer(int port, boolean serverTCP) {
+	private static boolean rodando;
+	
+	private static boolean serverUdpRodando;
+	
+	private DHCPServer(int port, boolean serverTCP) {
 		this.portServer = port;
 		this.server = ControlInstanceServer.getInstanceServer(port, serverTCP);
 		startCounters();
@@ -139,7 +143,7 @@ public class DHCPServer {
 	private String getIpClassC() {
 		String ip;
 		if (this.countClassB <  Constantes.NUMBER_OF_OPTIONS_IP-1) {
-			ip = Constantes.BASE_CLASS_B.concat(""+countClassC);
+			ip = Constantes.BASE_CLASS_C.concat(""+countClassC);
 		} else {
 			ip = "Todos os endereços estão em uso";
 		}
@@ -182,5 +186,25 @@ public class DHCPServer {
 			default:
 				System.out.println("Classe não existe");
 		}
+	}
+	
+	public static void start(int port, boolean serverTCP) {
+		DHCPServer server = new DHCPServer(port, serverTCP);
+	}
+
+	public static boolean isRodando() {
+		return rodando;
+	}
+
+	public static void setRodando(boolean rodandoo) {
+		rodando = rodandoo;
+	}
+
+	public static boolean isServerUdpRodando() {
+		return serverUdpRodando;
+	}
+
+	public static void setServerUdpRodando(boolean running) {
+		serverUdpRodando = running;
 	}
 }

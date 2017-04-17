@@ -47,12 +47,12 @@ public class ACKMessage extends GenericMessage implements Serializable {
 
 	@Override
 	public String toString() {
-		StringBuilder retorno = new StringBuilder("ACK MESSAGE: ");
+		StringBuilder retorno = new StringBuilder("\nACK MESSAGE: ");
 		
 		retorno.append("\nIDENTIFICADOR: ".concat(String.valueOf(getIdentificador())))
 		.append("\nIP SERVER: ").append(getIpServer())
 		.append("\nIP OFFER: ").append(getIpOffer())
-		.append("\nIP CLASS: ").append(getIpClass());
+		.append("\nIP CLASS: ").append(getIpClass()).append("\n");
 		
 		return retorno.toString();
 	}

@@ -58,13 +58,13 @@ public class RequestMessage extends GenericMessage implements Serializable {
 
 	@Override
 	public String toString() {
-		StringBuilder retorno = new StringBuilder("REQUEST MESSAGE: ");
+		StringBuilder retorno = new StringBuilder("\nREQUEST MESSAGE: ");
 		
 		retorno.append("\nIDENTIFICADOR: ".concat(String.valueOf(getIdentificador())))
 		.append("\nIP SOURCE: ").append(getIpSource())
 		.append("\nIP OFFER: ").append(getIpOffer())
 		.append("\nIP CLASS: ").append(getIpClass())
-		.append("\nIP SERVER: ").append(getIpServer());
+		.append("\nIP SERVER: ").append(getIpServer()).append("\n");
 		
 		return retorno.toString();
 	}

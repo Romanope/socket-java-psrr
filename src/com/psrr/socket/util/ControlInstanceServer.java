@@ -29,7 +29,7 @@ public final class ControlInstanceServer {
 		if (tcp) {
 			return new ServerTCPImpl(port);
 		} else {
-			return new ServerUDPImpl();
+			return new ServerUDPImpl(port);
 		}
 	}
 }
